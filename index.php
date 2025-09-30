@@ -4,20 +4,6 @@
     $piatto = isset($_POST["piatto"]) ? $_POST["piatto"] : "";
     $allergie = isset($_POST["allergie"]) ? $_POST["allergie"] : [];
 
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        echo "<h2>Benvenuto, $nome!</h2>";
-        echo "<p>Hai scelto di assaggiare: <strong>$piatto</strong></p>";
-        
-        
-        if (!empty($allergie)) {
-            foreach($allergie as $allergia) {
-                echo "<p>Sei allergico a: <strong>$allergia</strong></p>";
-            }
-        } else {
-            echo "<p>Non hai segnalato allergie.</p>";
-        }
-    }
-
 ?>
 
 
@@ -52,6 +38,37 @@
         <br><br>
 
         <input type="submit" value="Invia">
+
+        <div>
+            <?php
+
+                if ($_SERVER['REQUEST_METHOD'] == "POST") {
+                    if ($nome) {
+                            echo "<h2>Benvenuto, $nome!</h2>";
+                        } else {
+                            echo "<h2>Benvenuto, ospite misterioso!</h2>";
+                        }
+
+
+                    if ($piatto) {
+                            echo "<p>Chef franco (nu spettacl) è già pronto a preparare <strong>$piatto</strong> solo per te!</p>";
+                        } else {
+                            echo "<p>Non hai scelto un piatto preferito: lasciati sorprendere dalla nostra cucina digitale!</p>";
+                        }
+                
+                
+                    if (!empty($allergie)) {
+                        foreach($allergie as $allergia) {
+                            echo "<p>Sei allergico a: <strong>$allergia</strong></p>";
+                        }
+                    } else {
+                        echo "<p>Non hai segnalato allergie.</p>";
+                    }
+                }
+
+            ?>
+
+        </div>
 
     </form>
 </body>
