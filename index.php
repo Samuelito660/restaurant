@@ -93,38 +93,43 @@
                     
                 ];
 
+                $pagliaio = [];
+
                 if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     if ($nome) {
                             echo "<h2>Benvenuto, $nome!</h2>";
                         } else {
                             echo "<h2>Benvenuto, ospite misterioso!</h2>";
                         }
-                
-                
-                    foreach ($ricette as $ricetta) {
-                        $ago = false ;
-                        foreach ($allergie as $allergia) {
-                            if (in_array($allergia, $ricetta["allergeni"])) {
-                                $ago = true;
-                            }
+
+                foreach($ricette as $ricetta) {
+                    $ago = true;
+                    foreach($ricetta["allergeni"] as $allergene) {
+                        if(in_array($allergene, $allergie)) {
+                            $ago = false;
                         }
                     }
 
-                    if ($ago) {
-                        echo "<p>Attenzione! Il piatto $piatto contiene allergeni che hai segnalato.</p>";
-                    } else {
-                        echo "<p>Il piatto $piatto è sicuro per te!</p>";
+                    if($ago) {
+                        $pagliaio[] = $ricetta;
                     }
+                }
 
-
-
-
-
-
-
+                if(!empty($pagliaio)) {
+                    echo "<h2> Il piatto $piatto e' sicuro </h2>";
+                    echo "<p> Ecco altri piatti sicuri per te $nome: </p>";
+                    foreach($pagliaio as $piattoSicuro) {   
+                        echo "<div>";
+                        echo "<h4>" . $piattoSicuro["nome"] . "</h4>";
+                        
+                    }
+                }else {
+                    echo "<h2> Mi dispiace $nome, ma non ci sono piatti sicuri per te. </h2>";
                 }
 
 
+
+            }
             ?>
         </div>
 
